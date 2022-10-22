@@ -22,6 +22,7 @@ const Button = ({
     ...otherProps
 }) => {
     let Component = 'button'
+
     const classes = cx('wrapper', {
         small,
         large,
@@ -32,6 +33,7 @@ const Button = ({
         disabled,
         [className]: className,
     })
+
     const props = {
         onClick,
         ...otherProps,
