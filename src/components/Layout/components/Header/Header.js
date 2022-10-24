@@ -10,10 +10,8 @@ import {
     faEarthAsia,
     faEllipsisVertical,
     faGear,
-    faInbox,
     faKeyboard,
     faMagnifyingGlass,
-    faMessage,
     faPlus,
     faRightFromBracket,
     faSpinner,
@@ -25,6 +23,8 @@ import styles from './Header.module.scss'
 import images from '~/assets'
 import Button from '~/components/Button/Button'
 import Menu from '~/components/Popper/Menu/Menu'
+import { InboxIcon, MessageIcon } from '~/components/Icons/Icons'
+import Image from '~/components/Image/Image'
 // import AccountItem from '~/components/AccountItem/AccountItem'
 
 const cx = classNames.bind(styles)
@@ -154,12 +154,12 @@ const Header = () => {
                         <>
                             <Tippy content="Message" placement="bottom">
                                 <button className={cx('action-btn')}>
-                                    <FontAwesomeIcon icon={faMessage} />
+                                    <MessageIcon />
                                 </button>
                             </Tippy>
                             <Tippy content="Inbox" placement="bottom">
                                 <button className={cx('action-btn')}>
-                                    <FontAwesomeIcon icon={faInbox} />
+                                    <InboxIcon />
                                 </button>
                             </Tippy>
                         </>
@@ -168,10 +168,12 @@ const Header = () => {
                     )}
                     <Menu items={currentUser ? userMenu : MENU_ITEMS} onChange={handleMenuChange}>
                         {currentUser ? (
-                            <img
+                            <Image
                                 className={cx('user-avatar')}
-                                src="https://p16-sign-va.tiktokcdn.com/tos-useast2a-avt-0068-giso/b602bae758034d7cbbd764ab6b7a7a4c~c5_300x300.webp?x-expires=1664636400&x-signature=ovYv0xAOV4zHskJlkuGUmrAImmg%3D"
+                                // src="https://p16-sign-va.tiktokcdn.com/tos-useast2a-avt-0068-giso/b602bae758034d7cbbd764ab6b7a7a4c~c5_300x300.webp?x-expires=1664636400&x-signature=ovYv0xAOV4zHskJlkuGUmrAImmg%3D"
+                                src=""
                                 alt="..."
+                                // fallback="https://p16-sign-va.tiktokcdn.com/tos-useast2a-avt-0068-giso/d427cb356d6b2d79005fde9f642f3d7a~c5_100x100.jpeg?x-expires=1666753200&x-signature=xiMVLEHxesnjTzn41WD7wYnqCFY%3D"
                             />
                         ) : (
                             <button className={cx('more-button')}>
