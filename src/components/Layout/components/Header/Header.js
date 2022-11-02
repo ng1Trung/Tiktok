@@ -1,6 +1,8 @@
 import 'tippy.js/dist/tippy.css'
 import Tippy from '@tippyjs/react'
+import { Link } from 'react-router-dom'
 import classNames from 'classnames/bind'
+import routesConfig from '~/config/routes'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
     faCircleQuestion,
@@ -19,9 +21,9 @@ import styles from './Header.module.scss'
 import images from '~/assets'
 import Button from '~/components/Button/Button'
 import Menu from '~/components/Popper/Menu/Menu'
-import { InboxIcon, MessageIcon } from '~/components/Icons/Icons'
 import Image from '~/components/Image/Image'
 import Search from '~/pages/Search/Search'
+import { InboxIcon, MessageIcon } from '~/components/Icons/Icons'
 
 const cx = classNames.bind(styles)
 
@@ -36,19 +38,116 @@ const MENU_ITEMS = [
                     type: 'language',
                     code: 'en',
                     title: 'English',
-                    children: {
-                        title: 'Language',
-                        data: [
-                            {
-                                code: 'en',
-                                title: 'English1',
-                            },
-                            {
-                                code: 'vi',
-                                title: 'Tiếng Việt2',
-                            },
-                        ],
-                    },
+                },
+                {
+                    type: 'language',
+                    code: 'vi',
+                    title: 'Tiếng Việt',
+                },
+                {
+                    type: 'language',
+                    code: 'en',
+                    title: 'English',
+                },
+                {
+                    type: 'language',
+                    code: 'vi',
+                    title: 'Tiếng Việt',
+                },
+                {
+                    type: 'language',
+                    code: 'en',
+                    title: 'English',
+                },
+                {
+                    type: 'language',
+                    code: 'vi',
+                    title: 'Tiếng Việt',
+                },
+                {
+                    type: 'language',
+                    code: 'en',
+                    title: 'English',
+                },
+                {
+                    type: 'language',
+                    code: 'vi',
+                    title: 'Tiếng Việt',
+                },
+                {
+                    type: 'language',
+                    code: 'en',
+                    title: 'English',
+                },
+                {
+                    type: 'language',
+                    code: 'vi',
+                    title: 'Tiếng Việt',
+                },
+                {
+                    type: 'language',
+                    code: 'en',
+                    title: 'English',
+                },
+                {
+                    type: 'language',
+                    code: 'vi',
+                    title: 'Tiếng Việt',
+                },
+                {
+                    type: 'language',
+                    code: 'en',
+                    title: 'English',
+                },
+                {
+                    type: 'language',
+                    code: 'vi',
+                    title: 'Tiếng Việt',
+                },
+                {
+                    type: 'language',
+                    code: 'en',
+                    title: 'English',
+                },
+                {
+                    type: 'language',
+                    code: 'vi',
+                    title: 'Tiếng Việt',
+                },
+                {
+                    type: 'language',
+                    code: 'en',
+                    title: 'English',
+                },
+                {
+                    type: 'language',
+                    code: 'vi',
+                    title: 'Tiếng Việt',
+                },
+                {
+                    type: 'language',
+                    code: 'en',
+                    title: 'English',
+                },
+                {
+                    type: 'language',
+                    code: 'vi',
+                    title: 'Tiếng Việt',
+                },
+                {
+                    type: 'language',
+                    code: 'en',
+                    title: 'English',
+                },
+                {
+                    type: 'language',
+                    code: 'vi',
+                    title: 'Tiếng Việt',
+                },
+                {
+                    type: 'language',
+                    code: 'en',
+                    title: 'English',
                 },
                 {
                     type: 'language',
@@ -109,9 +208,9 @@ const Header = () => {
     return (
         <header className={cx('wrapper')}>
             <div className={cx('inner')}>
-                <div className={cx('logo')}>
+                <Link to={routesConfig.home} className={cx('logo')}>
                     <img src={images.logo} alt="Tiktok-logo" />
-                </div>
+                </Link>
 
                 <Search />
 

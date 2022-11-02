@@ -5,9 +5,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleXmark, faSpinner } from '@fortawesome/free-solid-svg-icons'
 
 import styles from './Search.module.scss'
+import * as searchServices from '~/apiServices/searchServices'
 import { SearchIcon } from '~/components/Icons/Icons'
 import AccountItem from '~/components/AccountItem/AccountItem'
 import { Wrapper as PopperWrapper } from '~/components/Popper'
+import { useDebounce } from '~/hooks'
 
 const cx = classNames.bind(styles)
 
@@ -15,8 +17,11 @@ const Search = () => {
     const [searchValue, setSearchValue] = useState('')
     const [searchResult, setSearchResult] = useState([])
     const [showResult, setShowResult] = useState(true)
+    const [isLoading, setIsLoading] = useState(false)
 
     const inputRef = useRef()
+
+    const debounced = useDebounce(searchValue, 500)
 
     const handleClear = () => {
         setSearchValue('')
@@ -28,56 +33,79 @@ const Search = () => {
         setShowResult(false)
     }
 
+    const handleChange = (e) => {
+        const value = e.target.value
+
+        if (!value.startsWith(' ')) {
+            setSearchValue(value)
+        }
+    }
+
     useEffect(() => {
-        setTimeout(() => {
-            setSearchResult([1, 2, 3])
-        }, 0)
-    }, [])
+        if (!debounced.trim()) {
+            setSearchResult([])
+            return
+        }
+
+        const fetchApi = async () => {
+            setIsLoading(true)
+
+            const result = await searchServices.search(debounced)
+
+            setSearchResult(result)
+
+            setIsLoading(false)
+        }
+
+        fetchApi()
+
+        setIsLoading(true)
+    }, [debounced])
 
     return (
-        <HeadlessTippy
-            interactive
-            visible={showResult && searchResult.length > 0}
-            render={(attrs) => (
-                <div className={cx('search-result')} {...attrs} tabIndex="-1">
-                    <PopperWrapper>
-                        <h4 className={cx('search-title')}>Accounts</h4>
-                        <AccountItem />
-                        <AccountItem />
-                        <AccountItem />
-                        <AccountItem />
-                    </PopperWrapper>
-                </div>
-            )}
-            onClickOutside={handleHideResult}
-        >
-            <div className={cx('search')}>
-                <input
-                    ref={inputRef}
-                    value={searchValue}
-                    placeholder="Search accounts and videos"
-                    spellCheck={false}
-                    onFocus={() => {
-                        setShowResult(true)
-                    }}
-                    onChange={(e) => setSearchValue(e.target.value)}
-                />
-                {!!searchValue && (
-                    /* clear */
-                    <button className={cx('clear')} onClick={handleClear}>
-                        <FontAwesomeIcon icon={faCircleXmark} />
-                    </button>
+        //<div> wrapper to fix bug tippy
+        <div>
+            <HeadlessTippy
+                interactive
+                visible={showResult && searchResult.length > 0}
+                render={(attrs) => (
+                    <div className={cx('search-result')} {...attrs} tabIndex="-1">
+                        <PopperWrapper>
+                            <h4 className={cx('search-title')}>Accounts</h4>
+                            {searchResult.map((result) => (
+                                <AccountItem key={result.id} data={result} />
+                            ))}
+                        </PopperWrapper>
+                    </div>
                 )}
+                onClickOutside={handleHideResult}
+            >
+                <div className={cx('search')}>
+                    <input
+                        ref={inputRef}
+                        value={searchValue}
+                        placeholder="Search accounts and videos"
+                        spellCheck={false}
+                        onFocus={() => {
+                            setShowResult(true)
+                        }}
+                        onChange={handleChange}
+                    />
 
-                {/* loading */}
-                {/* <FontAwesomeIcon className={cx('loading')} icon={faSpinner} /> */}
+                    {!!searchValue && !isLoading && (
+                        <button className={cx('clear')} onClick={handleClear}>
+                            <FontAwesomeIcon icon={faCircleXmark} />
+                        </button>
+                    )}
 
-                {/* search */}
-                <button className={cx('search-btn')}>
-                    <SearchIcon />
-                </button>
-            </div>
-        </HeadlessTippy>
+                    {isLoading && <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />}
+
+                    <button className={cx('search-btn')} onMouseDown={(e) => e.preventDefault()}>
+                        <SearchIcon />
+                    </button>
+                </div>
+            </HeadlessTippy>
+        </div>
     )
 }
 
