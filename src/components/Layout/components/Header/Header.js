@@ -1,20 +1,16 @@
-import { useState } from 'react'
 import 'tippy.js/dist/tippy.css'
 import Tippy from '@tippyjs/react'
 import classNames from 'classnames/bind'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
     faCircleQuestion,
-    faCircleXmark,
     faCoins,
     faEarthAsia,
     faEllipsisVertical,
     faGear,
     faKeyboard,
-    faMagnifyingGlass,
     faPlus,
     faRightFromBracket,
-    faSpinner,
     faUser,
     faVideo,
 } from '@fortawesome/free-solid-svg-icons'
@@ -25,7 +21,7 @@ import Button from '~/components/Button/Button'
 import Menu from '~/components/Popper/Menu/Menu'
 import { InboxIcon, MessageIcon } from '~/components/Icons/Icons'
 import Image from '~/components/Image/Image'
-// import AccountItem from '~/components/AccountItem/AccountItem'
+import Search from '~/pages/Search/Search'
 
 const cx = classNames.bind(styles)
 
@@ -104,21 +100,11 @@ const userMenu = [
 ]
 
 const Header = () => {
-    const [searchResult, setSearchResult] = useState([])
-
-    const handleChangeSearchResult = async (e) => {
-        setTimeout(() => {
-            setSearchResult((pre) => {
-                return [...pre, e.target.value]
-            })
-        }, 500)
-    }
+    const currentUser = true
 
     const handleMenuChange = (menuItem) => {
         console.log(menuItem)
     }
-
-    const currentUser = true
 
     return (
         <header className={cx('wrapper')}>
@@ -127,24 +113,7 @@ const Header = () => {
                     <img src={images.logo} alt="Tiktok-logo" />
                 </div>
 
-                <Menu>
-                    <div className={cx('search')}>
-                        <input placeholder="Search accounts and videos" onChange={handleChangeSearchResult} />
-
-                        {/* clear */}
-                        <button className={cx('clear')}>
-                            <FontAwesomeIcon icon={faCircleXmark} />
-                        </button>
-
-                        {/* loading */}
-                        <FontAwesomeIcon className={cx('loading')} icon={faSpinner} />
-
-                        {/* search */}
-                        <button className={cx('search-btn')}>
-                            <FontAwesomeIcon icon={faMagnifyingGlass} />
-                        </button>
-                    </div>
-                </Menu>
+                <Search />
 
                 <div className={cx('actions')}>
                     <Button original leftIcon={<FontAwesomeIcon icon={faPlus} />}>
@@ -152,14 +121,15 @@ const Header = () => {
                     </Button>
                     {currentUser ? (
                         <>
-                            <Tippy content="Message" placement="bottom">
+                            <Tippy content="Message" placement="bottom" delay={[0, 50]}>
                                 <button className={cx('action-btn')}>
                                     <MessageIcon />
                                 </button>
                             </Tippy>
-                            <Tippy content="Inbox" placement="bottom">
+                            <Tippy content="Inbox" placement="bottom" delay={[0, 50]}>
                                 <button className={cx('action-btn')}>
                                     <InboxIcon />
+                                    <span className={cx('badge')}>12</span>
                                 </button>
                             </Tippy>
                         </>
